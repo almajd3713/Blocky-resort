@@ -22,7 +22,7 @@ func _ready() -> void:
   $BuildingFactory.data_grid = data_grid
   $BuildingFactory.building_grid = building_grid
 
-  $AddStore.pressed.connect($BuildingFactory._toggle_build_mode)
+  # $AddStore.pressed.connect($BuildingFactory._toggle_build_mode)
 
   $BuildingFactory.preload_building("decor/outer_wall")
 
