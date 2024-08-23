@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0opaarq0p04s"]
+
+[ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/building_template.tscn" id="1_mtsm3"]
+[ext_resource type="Resource" uid="uid://cynwi7ecwuwfl" path="res://resources/buildings/decor/path.tres" id="2_bj5um"]
+[ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="3_8genk"]
+[ext_resource type="Texture2D" uid="uid://c2vcjwfjybln5" path="res://assets/path.png" id="4_a5o4k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqh0k"]
+resource_local_to_scene = true
+shader = ExtResource("3_8genk")
+shader_parameter/is_applied = null
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_uhnyd"]
+
+[node name="BuildingTemplate" instance=ExtResource("1_mtsm3")]
+data = ExtResource("2_bj5um")
+
+[node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_eqh0k")
+texture = ExtResource("4_a5o4k")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." index="1"]
+navigation_polygon = SubResource("NavigationPolygon_uhnyd")

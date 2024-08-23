@@ -6,7 +6,10 @@
 [resource]
 script = ExtResource("1_k5ot1")
 name = "Wall"
+code_name = "decor/outer_wall"
+type = "building"
 sprite = ExtResource("2_rdgcf")
 cells = Vector2i(2, 2)
+unnatural_cells = Array[Vector2i]([])
 is_enterable = false
 entrance_cell = Vector2i(0, 0)

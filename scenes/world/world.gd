@@ -22,9 +22,9 @@ func _ready() -> void:
   $BuildingFactory.data_grid = data_grid
   $BuildingFactory.building_grid = building_grid
 
-  # $AddStore.pressed.connect($BuildingFactory._toggle_build_mode)
 
   $BuildingFactory.preload_building("decor/outer_wall")
+  $BuildingFactory.preload_building("decor/path")
 
     # var preloaded_data = grid.get_cell_tile_data(cell)
     # if preloaded_data and preloaded_data.get_custom_data("Wall"):

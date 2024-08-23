@@ -4,16 +4,17 @@ extends Node
 @export var data_grid: TileMapLayer
 @export var building_grid: TileMapLayer
 
+var buildings_prototypes: Dictionary
 var buildings: Dictionary
 
 func store_building(build: BuildingTemplate):
-  if buildings.has(build.name):
-    buildings[build.name].push(build)
-  else:
-    buildings[build.name] = [build]
+  if not buildings.has(build.data.code_name):
+    buildings[build.data.code_name] = Array()
+  # print(buildings)
+  buildings[build.data.code_name].append(build)
 
 var buildings_names = [
-  "store", "decor/outer_wall"
+  "store", "decor/outer_wall", "decor/path"
 ]
 
 var current_placement_building: BuildingTemplate
@@ -21,33 +22,78 @@ var current_placement_building: BuildingTemplate
 func _init() -> void:
   for build in buildings_names:
     var full_path = get_building_scene_path(build)
-    buildings[build] = load(full_path)
+    buildings_prototypes[build] = load(full_path)
+  pass;
 
 
 func _ready() -> void:
-  current_placement_building = create_building("store")
+  Signals.toggle_build_mode.connect(_toggle_build_mode)
 
-func _toggle_build_mode():
-  toggle_building = !toggle_building
+func _toggle_build_mode(build: String):
+  # toggle_building = !toggle_building
+  # if toggle_building:
+  #   current_placement_building = create_building("store")
+  #   current_placement_building.position = get_snapped_mouse_pos()
+  #   add_child(current_placement_building)
+  # else:
+  #   remove_child(current_placement_building)
+  #   current_placement_building.queue_free()
+  # if current_placement_building:
+    # print("AA", current_placement_building.data.code_name)
+
   if toggle_building:
-    current_placement_building = create_building("store")
-    current_placement_building.position = get_snapped_mouse_pos()
-    add_child(current_placement_building)
-  else:
     remove_child(current_placement_building)
     current_placement_building.queue_free()
+    toggle_building = false
+    if current_placement_building and current_placement_building.data.code_name != build:
+      toggle_building = true
+      current_placement_building = create_building(build)
+      current_placement_building.position = get_snapped_mouse_pos()
+      add_child(current_placement_building)
+  else:
+      toggle_building = true
+      current_placement_building = create_building(build)
+      current_placement_building.position = get_snapped_mouse_pos()
+      add_child(current_placement_building)
+  print(toggle_building)
 
-  # else:
+
+  # if not toggle_building or (toggle_building and current_placement_building and current_placement_building.data.code_name != build):
     # remove_child(current_placement_building)
+    # current_placement_building.queue_free()
+# 
+    # toggle_building = true
+    # current_placement_building = create_building(build)
+    # current_placement_building.position = get_snapped_mouse_pos()
+    # add_child(current_placement_building)
+# 
+  # if toggle_building or current_placement_building:
+  #   remove_child(current_placement_building)
+  #   current_placement_building.queue_free()
+  # if toggle_building and current_placement_building:
+  #   toggle_building = false
+  #   remove_child(current_placement_building)
+  #   current_placement_building.queue_free()
+
+  # elif not toggle_building or current_placement_building.data.code_name != build:
+  #   if current_placement_building:
+  #     remove_child(current_placement_building)
+  #     current_placement_building.queue_free()
+  #   toggle_building = true
+  #   current_placement_building = create_building(build)
+  #   current_placement_building.position = get_snapped_mouse_pos()
+  #   add_child(current_placement_building)
+    
+
 
 var toggle_building := false
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed("a_key") and toggle_building:
     var at = data_grid.local_to_map(current_placement_building.position)
     if can_place_building(current_placement_building, at):
-      place_building(building_grid, current_placement_building, at)
-      store_building(current_placement_building)
-      current_placement_building = create_building("store")
+      place_building(current_placement_building, at)
+      print(current_placement_building)
+      current_placement_building = create_building(current_placement_building.data.code_name)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
 
@@ -78,7 +124,7 @@ func get_building_scene_path(build: String):
   return "res://scenes/placeables/" + build + ".tscn"
 
 func create_building(build: String):
-  var building = buildings[build].instantiate()
+  var building = buildings_prototypes[build].instantiate()
   return building
 
 # `at` is relative to data_grid
@@ -95,7 +141,7 @@ func can_place_building(build: BuildingTemplate, at: Vector2i):
     return true
 
 
-func place_building(grid: TileMapLayer, build: BuildingTemplate, at: Vector2i) -> void:
+func place_building(build: BuildingTemplate, at: Vector2i) -> void:
   var building_tiles = get_building_tiles(data_grid, build, at)
   # print(building_tiles)
   # var building_pos = data_grid.to_local(build.global_position)
@@ -105,11 +151,22 @@ func place_building(grid: TileMapLayer, build: BuildingTemplate, at: Vector2i) -
     data_grid.data[cell]["is_used"] = true  
     data_grid.data[cell]["building"] = build
     data_grid.data[cell]["building_cell"] = cell - building_tile_origin
+    if build.data.type == "path":
+      data_grid.data[cell]["is_walkable"] = true
+      set_cell(cell, "path")
+    else:
+      set_cell(cell)
     if cell == building_tile_origin:
-      print(cell - building_tile_origin)
       build.position = building_pos[0] - Vector2(8, 8)
+  store_building(build)
   
-
+func set_cell(cell: Vector2i, type: String = "building"):
+  match type:
+    "path":
+      data_grid.set_cell(cell, 0, Vector2i(0,0))
+      
+    _:
+      data_grid.set_cell(cell, 0, Vector2i(0, 1))
 
   
 
@@ -147,11 +204,12 @@ func preload_building(build: String):
       var building_tiles = get_building_tiles(data_grid, building, cell)
       var can_build_preload = true
       for preload_cell in building_tiles:
-        print(preload_cell)
         if not data_grid.get_cell_tile_data(preload_cell) or not data_grid.get_cell_tile_data(preload_cell).get_custom_data(build):
           can_build_preload = false;
           break;
 
       if can_place_building(building, cell) and can_build_preload: 
         add_child(building)
-        place_building(building_grid, building, cell)
+        place_building( building, cell)
+  
+

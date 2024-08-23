@@ -1,5 +1,5 @@
 extends Node2D
-class_name Agent
+# class_name Agent
 
 @export var tile_map: TileMapLayer
 @onready var astar_grid := AStarGrid2D.new()

@@ -3,6 +3,9 @@ class_name BuildingData
 
 @export_category("General")
 @export var name := "New Building"
+## Must match directory, starting from scenes/placeables!
+## @example decor/outer_wall
+@export var code_name := "new_building"
 # building | wall | etc...
 @export var type := "building"
 @export var sprite: Texture2D

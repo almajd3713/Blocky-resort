@@ -15,10 +15,15 @@ run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Signals="*res://global/signals.gd"
+
 [file_customization]
 
 folder_colors={
-"res://assets/": "orange",
+"res://assets/": "red",
+"res://global/": "yellow",
 "res://resources/": "teal"
 }
 
@@ -37,7 +42,7 @@ a_key={
 
 [layer_names]
 
-2d_physics/layer_1="player"
 2d_navigation/layer_1="player"
-2d_physics/layer_2="obstacle"
 2d_navigation/layer_2="obstacle"
+2d_physics/layer_3="npcs"
+2d_physics/layer_4="buildings/empty"

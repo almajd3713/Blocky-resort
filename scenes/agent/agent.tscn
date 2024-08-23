@@ -1,13 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://l7qr1rq17r1j"]
+[gd_scene load_steps=4 format=3 uid="uid://l7qr1rq17r1j"]
 
 [ext_resource type="Texture2D" uid="uid://cepjsvtghkij" path="res://icon.svg" id="1_f38hj"]
-[ext_resource type="Script" path="res://scenes/agent/agent.gd" id="1_qntbx"]
+[ext_resource type="Script" path="res://scenes/agent/agent_new.gd" id="1_llw0m"]
 
-[node name="Agent" type="Node2D"]
-script = ExtResource("1_qntbx")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c68pq"]
+size = Vector2(8, 8)
+
+[node name="Agent" type="CharacterBody2D"]
+z_index = 5
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_llw0m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.0689771, 0.0689771)
 texture = ExtResource("1_f38hj")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+target_desired_distance = 4.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 8.0
+max_neighbors = 4
+debug_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c68pq")
