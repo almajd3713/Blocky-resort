@@ -24,6 +24,8 @@ func _ready() -> void:
 
   $AddStore.pressed.connect($BuildingFactory._toggle_build_mode)
 
+  $BuildingFactory.preload_building("decor/outer_wall")
+
     # var preloaded_data = grid.get_cell_tile_data(cell)
     # if preloaded_data and preloaded_data.get_custom_data("Wall"):
     #   grid.tile_data[cell]["preloaded"] = true
@@ -35,7 +37,7 @@ func _ready() -> void:
   
 
 
-
+  
 
 
 

@@ -1,14 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://bac8rpasgkfof"]
+[gd_scene load_steps=7 format=3 uid="uid://bac8rpasgkfof"]
 
 [ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/building_template.tscn" id="1_4mk8l"]
 [ext_resource type="Resource" uid="uid://car365wsja61f" path="res://resources/buildings/store.tres" id="2_2df3p"]
+[ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="2_udbqf"]
 [ext_resource type="Texture2D" uid="uid://j3tflp2ev63g" path="res://assets/store.png" id="3_fjhh0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bktjh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5ge0"]
+resource_local_to_scene = true
+shader = ExtResource("2_udbqf")
+shader_parameter/is_applied = null
 
 [node name="Store" instance=ExtResource("1_4mk8l")]
 material = SubResource("ShaderMaterial_bktjh")
 data = ExtResource("2_2df3p")
 
 [node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_s5ge0")
 texture = ExtResource("3_fjhh0")
