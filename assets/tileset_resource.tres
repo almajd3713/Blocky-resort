@@ -10,10 +10,13 @@ texture = ExtResource("1_j3acm")
 0:1/0/custom_data_0 = true
 0:1/0/custom_data_1 = true
 1:1/0 = 0
+1:1/0/custom_data_2 = true
 
 [resource]
 custom_data_layer_0/name = "Walkable"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "Buildable"
 custom_data_layer_1/type = 1
+custom_data_layer_2/name = "Wall"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_jm5tx")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://isiq1xldpqhy"]
+
+[ext_resource type="Script" path="res://global/building_factory.gd" id="1_p7ydj"]
+
+[node name="BuildingFactory" type="Node"]
+script = ExtResource("1_p7ydj")
