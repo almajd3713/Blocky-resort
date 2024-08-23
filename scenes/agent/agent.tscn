@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://l7qr1rq17r1j"]
+
+[ext_resource type="Texture2D" uid="uid://cepjsvtghkij" path="res://icon.svg" id="1_f38hj"]
+[ext_resource type="Script" path="res://scenes/agent/agent.gd" id="1_qntbx"]
+
+[node name="Agent" type="Node2D"]
+script = ExtResource("1_qntbx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0689771, 0.0689771)
+texture = ExtResource("1_f38hj")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

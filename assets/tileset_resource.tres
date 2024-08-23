@@ -1,0 +1,19 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://b6ug6fik85wb8"]
+
+[ext_resource type="Texture2D" uid="uid://bdwhahdj25j8w" path="res://assets/tileset.png" id="1_j3acm"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jm5tx"]
+texture = ExtResource("1_j3acm")
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+0:1/0/custom_data_0 = true
+0:1/0/custom_data_1 = true
+1:1/0 = 0
+
+[resource]
+custom_data_layer_0/name = "Walkable"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "Buildable"
+custom_data_layer_1/type = 1
+sources/0 = SubResource("TileSetAtlasSource_jm5tx")

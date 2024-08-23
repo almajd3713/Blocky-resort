@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3 uid="uid://car365wsja61f"]
+
+[ext_resource type="Script" path="res://resources/buildings/building_data.gd" id="1_tc5hi"]
+[ext_resource type="Texture2D" uid="uid://j3tflp2ev63g" path="res://assets/store.png" id="2_2f0c8"]
+
+[resource]
+script = ExtResource("1_tc5hi")
+name = "Store"
+sprite = ExtResource("2_2f0c8")
+cells = Vector2i(3, 3)
+is_enterable = true
+entrance_cell = Vector2i(0, 0)
