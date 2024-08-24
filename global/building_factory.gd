@@ -1,17 +1,11 @@
 extends Node
 
 @export var world: Node2D
-@export var data_grid: TileMapLayer
 @export var building_grid: TileMapLayer
 
 var buildings_prototypes: Dictionary
-var buildings: Dictionary
+@onready var data_grid := DataGridAutoload.data_grid
 
-func store_building(build: BuildingTemplate):
-  if not buildings.has(build.data.code_name):
-    buildings[build.data.code_name] = Array()
-  # print(buildings)
-  buildings[build.data.code_name].append(build)
 
 var buildings_names = [
   "store", "decor/outer_wall", "decor/path"
@@ -39,7 +33,6 @@ func _toggle_build_mode(build: String):
   #   remove_child(current_placement_building)
   #   current_placement_building.queue_free()
   # if current_placement_building:
-    # print("AA", current_placement_building.data.code_name)
 
   if toggle_building:
     remove_child(current_placement_building)
@@ -55,7 +48,6 @@ func _toggle_build_mode(build: String):
       current_placement_building = create_building(build)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
-  print(toggle_building)
 
 
   # if not toggle_building or (toggle_building and current_placement_building and current_placement_building.data.code_name != build):
@@ -92,7 +84,6 @@ func _input(event: InputEvent) -> void:
     var at = data_grid.local_to_map(current_placement_building.position)
     if can_place_building(current_placement_building, at):
       place_building(current_placement_building, at)
-      print(current_placement_building)
       current_placement_building = create_building(current_placement_building.data.code_name)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
@@ -119,6 +110,16 @@ func get_snapped_mouse_pos():
 
 func map_to_local(at: Vector2i):
   return data_grid.map_to_local(at)
+func local_to_map(at: Vector2i):
+  return data_grid.local_to_map(at)
+
+func map_to_global(at: Vector2i):
+  return data_grid.to_global(map_to_local(at))
+func global_to_map(at: Vector2i):
+  return local_to_map(data_grid.to_local(at))
+
+func get_local_tile_center(at: Vector2i) -> Vector2i:
+  return map_to_local(at) + data_grid.size
 
 func get_building_scene_path(build: String):
   return "res://scenes/placeables/" + build + ".tscn"
@@ -143,10 +144,11 @@ func can_place_building(build: BuildingTemplate, at: Vector2i):
 
 func place_building(build: BuildingTemplate, at: Vector2i) -> void:
   var building_tiles = get_building_tiles(data_grid, build, at)
-  # print(building_tiles)
   # var building_pos = data_grid.to_local(build.global_position)
   var building_pos = building_tiles.map(func(tile): return data_grid.map_to_local(tile))
   var building_tile_origin = data_grid.local_to_map(building_pos[0])
+  build.origin_tile = building_tile_origin
+
   for cell in building_tiles:
     data_grid.data[cell]["is_used"] = true  
     data_grid.data[cell]["building"] = build
@@ -158,13 +160,19 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
       set_cell(cell)
     if cell == building_tile_origin:
       build.position = building_pos[0] - Vector2(8, 8)
-  store_building(build)
+  if build.data.is_enterable:
+    set_cell(get_map_entrance_tile(build, building_tile_origin), "entrance")
+    build.entrance_tile = get_map_entrance_tile(build, building_tile_origin)
+  else:
+    build.entrance_tile = building_tile_origin
+  Signals.store_building.emit(build)
   
 func set_cell(cell: Vector2i, type: String = "building"):
   match type:
     "path":
       data_grid.set_cell(cell, 0, Vector2i(0,0))
-      
+    "entrance":
+      data_grid.set_cell(cell, 0, Vector2i(0,0))
     _:
       data_grid.set_cell(cell, 0, Vector2i(0, 1))
 
@@ -186,6 +194,16 @@ func get_building_tiles(grid: TileMapLayer, building: BuildingTemplate, at: Vect
         grid.local_to_map(map_to_local(at) + Vector2(x, y) * offset)
       )
   return build_cells
+
+## start_tile is the tile of the first building node, so it can find the entrance relatively
+func get_local_entrance_tile(build: BuildingTemplate, start_tile: Vector2i) -> Vector2i:
+  var relative_tile = build.data.entrance_cell
+  return map_to_local(relative_tile + start_tile)
+
+## start_tile is the tile of the first building node, so it can find the entrance relatively
+func get_map_entrance_tile(build: BuildingTemplate, start_tile: Vector2i) -> Vector2i:
+  var relative_tile = build.data.entrance_cell
+  return relative_tile + start_tile
 
 
 func preload_building(build: String):

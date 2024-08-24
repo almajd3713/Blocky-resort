@@ -13,3 +13,4 @@ cells = Vector2i(3, 3)
 unnatural_cells = Array[Vector2i]([])
 is_enterable = true
 entrance_cell = Vector2i(2, 0)
+has_inner_path = true

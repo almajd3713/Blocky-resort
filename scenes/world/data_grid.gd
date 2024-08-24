@@ -1,12 +1,18 @@
 extends TileMapLayer
-class_name DataGrid
 
-@export var size := 16
+@export var size := Vector2i(16, 16)
 
 
 # @onready var 
 
 var data: Dictionary = {}
+
+func _init() -> void:
+    DataGridAutoload.data_grid = self
+
+# func _init() -> void:
+#     ActionManager.data_grid = self
+
 # const tile_data_template: Dictionary = {
 #   "is_used": false,
 #   "building": null,

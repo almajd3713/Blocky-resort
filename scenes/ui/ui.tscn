@@ -55,11 +55,11 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Build Path"
 
-[node name="SpawnAgent" type="Button" parent="GameUI/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="CreateActionSeq" type="Button" parent="GameUI/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Spawn Agent"
+text = "Create Action Sequence"
 
 [node name="PanelContainer" type="PanelContainer" parent="GameUI/MarginContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2

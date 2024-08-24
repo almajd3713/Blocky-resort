@@ -11,5 +11,6 @@ type = "path"
 sprite = ExtResource("2_1fc7y")
 cells = Vector2i(1, 1)
 unnatural_cells = Array[Vector2i]([])
-is_enterable = true
+is_enterable = false
 entrance_cell = Vector2i(0, 0)
+has_inner_path = false

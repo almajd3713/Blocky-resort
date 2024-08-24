@@ -27,3 +27,7 @@ debug_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_c68pq")
+
+[node name="Sleeper" type="Timer" parent="."]
+one_shot = true
+autostart = true

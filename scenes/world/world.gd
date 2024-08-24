@@ -5,7 +5,7 @@ var building_data := {
 
 }
 
-@onready var data_grid: TileMapLayer = $DataGrid
+@onready var data_grid := DataGridAutoload.data_grid
 @onready var building_grid: TileMapLayer = $BuildingGrid
 
 const tile_data_template: Dictionary = {
@@ -19,7 +19,7 @@ func _ready() -> void:
   for cell in data_grid.get_used_cells():
     data_grid.data[cell] = tile_data_template.duplicate()
   $BuildingFactory.world = self
-  $BuildingFactory.data_grid = data_grid
+  # $BuildingFactory.data_grid = data_grid
   $BuildingFactory.building_grid = building_grid
 
 

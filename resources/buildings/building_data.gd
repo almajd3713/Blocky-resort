@@ -17,4 +17,6 @@ class_name BuildingData
 @export_category("Interactions")
 @export var is_enterable := true
 @export var entrance_cell := Vector2i(0, 0)
+## Once true, the Path2D has to be created inside the scene manually
+@export var has_inner_path := false
 
