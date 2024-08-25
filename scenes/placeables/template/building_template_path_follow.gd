@@ -40,7 +40,8 @@ func progress():
   waiting_for_delay = false
   progress_ratio += movement_speed
 
-      
+func _exit_tree() -> void:
+  if assigned_agent: assigned_agent.finish_inner_building_path()
 
 func assign_and_start(build: BuildingTemplate, agent: Agent):
   progress_ratio = 0

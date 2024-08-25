@@ -7,10 +7,11 @@
 script = ExtResource("1_ly5mf")
 name = "Sand"
 code_name = "decor/sand"
-type = "building"
+type = "ground"
 sprite = ExtResource("2_r4f3i")
-cells = Vector2i(1, 1)
-unnatural_cells = Array[Vector2i]([])
+cells = null
+unnatural_cells = null
 is_enterable = false
-entrance_cell = Vector2i(0, 0)
-has_inner_path = false
+entrance_cell = null
+has_inner_path = null
+is_ground = true

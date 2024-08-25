@@ -10,6 +10,10 @@ var data: Dictionary = {}
 func _init() -> void:
     Data.data_grid = self
 
+func get_tile_property(tile: Vector2i, property: String):
+  if data.has(tile):
+    return get_cell_tile_data(tile).get_custom_data(property)
+
 # func _init() -> void:
 #     ActionManager.data_grid = self
 

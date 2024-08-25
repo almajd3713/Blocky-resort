@@ -15,7 +15,6 @@ metadata/_edit_lock_ = true
 [node name="UI" parent="." instance=ExtResource("3_78kmq")]
 
 [node name="Camera" parent="." instance=ExtResource("4_urinl")]
-speed = null
+position = Vector2(0, 0)
 
 [node name="Agent" parent="." instance=ExtResource("4_8hrwd")]
-position = Vector2(176, 87)

@@ -19,4 +19,5 @@ class_name BuildingData
 @export var entrance_cell := Vector2i(0, 0)
 ## Once true, the Path2D has to be created inside the scene manually
 @export var has_inner_path := false
-
+## This means it can be built on
+@export var is_ground := false

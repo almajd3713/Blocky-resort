@@ -8,7 +8,7 @@ class_name BuildingTemplate
 var origin_tile: Vector2i
 var entrance_tile: Vector2i
 
-var is_occupied := false
+var assigned_agent: Agent
 
 var path: Path2D
 ## The PathFollow2D
@@ -32,8 +32,9 @@ func _ready() -> void:
   var detection_area_dimensions = $Sprite.get_rect().size
   $MouseHoverDetection/CollisionShape2D.shape.size = detection_area_dimensions
   $MouseHoverDetection/CollisionShape2D.position = detection_area_dimensions / 2
-  $MouseHoverDetection.mouse_entered.connect(_on_mouse_enter)
-  $MouseHoverDetection.mouse_exited.connect(_on_mouse_exit)
+  if not data.is_ground:
+    $MouseHoverDetection.mouse_entered.connect(_on_mouse_enter)
+    $MouseHoverDetection.mouse_exited.connect(_on_mouse_exit)
 
   if data.has_inner_path:
     path = $Path2D
@@ -41,12 +42,25 @@ func _ready() -> void:
 
 func _on_mouse_enter():
   if Data.build_mode == Data.BuildModes.DESTROY:
-    print("Entering ", self)
     toggle_cannot_build_shader(true)
 func _on_mouse_exit():
   if Data.build_mode == Data.BuildModes.DESTROY:
-    print("Exiting ", self)
     toggle_cannot_build_shader(false)
+func _on_agent_leaves(agent: Agent):
+  assigned_agent = null
+
+func _exit_tree() -> void:
+  if assigned_agent:
+    var nearest_escape = Data.find_nearest_building(entrance_tile, 10)
+    var nearest_escape_coord = Data.get_global_from_tile(nearest_escape.origin_tile)
+    if nearest_escape:
+      print("Nearest tile to ", entrance_tile, " is ", nearest_escape)
+      assigned_agent.reparent(get_node('/root/Main'))
+      assigned_agent.global_position = nearest_escape_coord
+      assigned_agent.current_dest = nearest_escape_coord
+
+      
+
 
 func toggle_cannot_build_shader(what: bool):
   $Sprite.material.set_shader_parameter("is_applied", what)

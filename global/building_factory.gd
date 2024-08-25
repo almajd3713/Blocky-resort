@@ -60,7 +60,14 @@ func _input(event: InputEvent) -> void:
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
   elif event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.DESTROY:
-    pass
+    var at = local_to_map(get_snapped_mouse_pos())
+    if data_grid.data.has(at):
+      # print(data_grid.data[at]['building_cell'])
+      var build = data_grid.data[at].building
+      if not build.data.is_ground: 
+        destroy_building(build, build.origin_tile)
+
+
 
 
 
@@ -127,8 +134,8 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
   build.origin_tile = building_tile_origin
 
   for cell in building_tiles:
-    if not get_tile_property(cell, "is_ground"):
-      data_grid.data[cell]["is_used"] = true  
+    if not build.data.is_ground:
+      data_grid.data[cell]["is_used"] = true
     data_grid.data[cell]["building"] = build
     data_grid.data[cell]["building_cell"] = cell - building_tile_origin
     if build.data.type == "path":
@@ -145,6 +152,18 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
     build.entrance_tile = building_tile_origin
   Signals.store_building.emit(build)
   
+func destroy_building(build: BuildingTemplate, at: Vector2i):
+  var building_tiles = get_building_tiles(data_grid, build, at)
+  for cell in building_tiles:
+    data_grid.data[cell]["is_used"] = false
+    data_grid.data[cell]["building"] = null
+    data_grid.data[cell]["building_cell"] = null
+    data_grid.data[cell]["is_walkable"] = false
+    set_cell(cell)
+
+  build.queue_free()
+    
+
 func set_cell(cell: Vector2i, type: String = "building"):
   match type:
     "path":
@@ -152,7 +171,7 @@ func set_cell(cell: Vector2i, type: String = "building"):
     "entrance":
       data_grid.set_cell(cell, 0, Vector2i(0,0))
     _:
-      data_grid.set_cell(cell, 0, Vector2i(0, 1))
+      data_grid.set_cell(cell, 0, Vector2i(0,2))
 
   
 
@@ -211,3 +230,6 @@ func preload_building(build: String):
 func get_tile_property(tile: Vector2i, property: String):
   if data_grid.data.has(tile):
     return data_grid.get_cell_tile_data(tile).get_custom_data(property)
+func set_tile_property(tile: Vector2i, property: String, value):
+  if data_grid.data.has(tile):
+    data_grid.get_cell_tile_data(tile).set_custom_data(property, value)
