@@ -32,15 +32,21 @@ func _ready() -> void:
   var detection_area_dimensions = $Sprite.get_rect().size
   $MouseHoverDetection/CollisionShape2D.shape.size = detection_area_dimensions
   $MouseHoverDetection/CollisionShape2D.position = detection_area_dimensions / 2
-  Signals.destroy_building.connect(_on_mouse_hover)
+  $MouseHoverDetection.mouse_entered.connect(_on_mouse_enter)
+  $MouseHoverDetection.mouse_exited.connect(_on_mouse_exit)
 
   if data.has_inner_path:
     path = $Path2D
     path_cart = $Path2D/PathFollow2D
 
-func _on_mouse_hover():
-  pass
-
+func _on_mouse_enter():
+  if Data.build_mode == Data.BuildModes.DESTROY:
+    print("Entering ", self)
+    toggle_cannot_build_shader(true)
+func _on_mouse_exit():
+  if Data.build_mode == Data.BuildModes.DESTROY:
+    print("Exiting ", self)
+    toggle_cannot_build_shader(false)
 
 func toggle_cannot_build_shader(what: bool):
   $Sprite.material.set_shader_parameter("is_applied", what)

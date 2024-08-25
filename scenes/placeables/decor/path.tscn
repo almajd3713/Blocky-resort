@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0opaarq0p04s"]
+[gd_scene load_steps=8 format=3 uid="uid://b0opaarq0p04s"]
 
 [ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/template/building_template.tscn" id="1_mtsm3"]
 [ext_resource type="Resource" uid="uid://cynwi7ecwuwfl" path="res://resources/buildings/decor/path.tres" id="2_bj5um"]
@@ -10,7 +10,16 @@ resource_local_to_scene = true
 shader = ExtResource("3_8genk")
 shader_parameter/is_applied = null
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_uhnyd"]
+[sub_resource type="Curve2D" id="Curve2D_vdx4b"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 40, 8)
+}
+point_count = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k1tej"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
 
 [node name="BuildingTemplate" instance=ExtResource("1_mtsm3")]
 data = ExtResource("2_bj5um")
@@ -19,5 +28,9 @@ data = ExtResource("2_bj5um")
 material = SubResource("ShaderMaterial_eqh0k")
 texture = ExtResource("4_a5o4k")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." index="1"]
-navigation_polygon = SubResource("NavigationPolygon_uhnyd")
+[node name="Path2D" parent="." index="1"]
+curve = SubResource("Curve2D_vdx4b")
+
+[node name="CollisionShape2D" parent="MouseHoverDetection" index="0"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_k1tej")

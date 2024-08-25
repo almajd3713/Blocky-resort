@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://uosnrij3d80o"]
+[gd_scene load_steps=8 format=3 uid="uid://uosnrij3d80o"]
 
 [ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/template/building_template.tscn" id="1_73n61"]
 [ext_resource type="Resource" uid="uid://b8mqawf11s6so" path="res://resources/buildings/decor/outer_wall.tres" id="2_1xbhn"]
@@ -17,6 +17,10 @@ _data = {
 }
 point_count = 1
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x4xd5"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
+
 [node name="OuterWall" instance=ExtResource("1_73n61")]
 data = ExtResource("2_1xbhn")
 
@@ -29,3 +33,4 @@ curve = SubResource("Curve2D_falbj")
 
 [node name="CollisionShape2D" parent="MouseHoverDetection" index="0"]
 position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_x4xd5")

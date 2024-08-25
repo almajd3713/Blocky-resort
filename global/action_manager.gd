@@ -41,12 +41,13 @@ func create_action(_agent_preferences: Dictionary, primitive_action: String, tar
         "path": target.path_cart,
       } 
 
+var counter := -1
 func greg(build: String):
   match build:
-    "decor/path":
-      return 36
+
     "store":
-      return 0
+      counter+=1
+      return counter
       
 
 func create_action_sequence(agent_preferences: Dictionary, action: String):
@@ -55,7 +56,6 @@ func create_action_sequence(agent_preferences: Dictionary, action: String):
     "buy":
       var walk_action = create_action(agent_preferences, "walk_to", "store")
       var idle_action = create_action(agent_preferences, "walk_in_building", walk_action["building"])
-      var walk_action2 = create_action(agent_preferences, "walk_to", "decor/path")
 
-      queue.append_array([walk_action, idle_action, walk_action2])
+      queue.append_array([walk_action, idle_action])
   return queue

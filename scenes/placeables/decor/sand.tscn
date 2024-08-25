@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://kpk0lv7oq3hh"]
+
+[ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/template/building_template.tscn" id="1_giul6"]
+[ext_resource type="Resource" uid="uid://c0ko0uv772p6n" path="res://resources/buildings/decor/sand.tres" id="2_rlaxu"]
+[ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="3_crypo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rkxkl"]
+resource_local_to_scene = true
+shader = ExtResource("3_crypo")
+shader_parameter/is_applied = null
+
+[sub_resource type="Curve2D" id="Curve2D_xri5r"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 40, 8)
+}
+point_count = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3wh06"]
+resource_local_to_scene = true
+size = Vector2(0, 0)
+
+[node name="Sand" instance=ExtResource("1_giul6")]
+data = ExtResource("2_rlaxu")
+
+[node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_rkxkl")
+
+[node name="Path2D" parent="." index="1"]
+curve = SubResource("Curve2D_xri5r")
+
+[node name="CollisionShape2D" parent="MouseHoverDetection" index="0"]
+shape = SubResource("RectangleShape2D_3wh06")

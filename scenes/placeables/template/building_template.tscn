@@ -17,7 +17,8 @@ _data = {
 point_count = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kftuu"]
-size = Vector2(32, 32)
+resource_local_to_scene = true
+size = Vector2(0, 0)
 
 [node name="BuildingTemplate" type="Node2D"]
 script = ExtResource("1_iya5u")
@@ -40,7 +41,7 @@ movement_speed = null
 [node name="Delay" type="Timer" parent="Path2D/PathFollow2D"]
 
 [node name="MouseHoverDetection" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseHoverDetection"]

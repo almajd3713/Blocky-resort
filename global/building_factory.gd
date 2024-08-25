@@ -7,14 +7,11 @@ var buildings_prototypes: Dictionary
 @onready var data_grid := Data.data_grid
 
 
-var buildings_names = [
-  "store", "decor/outer_wall", "decor/path"
-]
 
 var current_placement_building: BuildingTemplate
 
 func _init() -> void:
-  for build in buildings_names:
+  for build in Data.building_names:
     var full_path = get_building_scene_path(build)
     buildings_prototypes[build] = load(full_path)
   pass;
@@ -27,25 +24,32 @@ func _ready() -> void:
 func _toggle_build_mode(build: String):
   if Data.build_mode == Data.BuildModes.BUILD:
     remove_child(current_placement_building)
+    var build_old_name = current_placement_building.data.code_name
     current_placement_building.queue_free()
-    Data.build_mode = Data.BuildModes.NONE
-    if current_placement_building and current_placement_building.data.code_name != build:
-      Data.build_mode = Data.BuildModes.BUILD
-      current_placement_building = create_building(build)
-      current_placement_building.position = get_snapped_mouse_pos()
-      add_child(current_placement_building)
-  else:
-      Data.build_mode = Data.BuildModes.BUILD
-      current_placement_building = create_building(build)
-      current_placement_building.position = get_snapped_mouse_pos()
-      add_child(current_placement_building)
+    if build_old_name == build:
+      Data.build_mode = Data.BuildModes.NONE
+      return
+    # Data.build_mode = Data.BuildModes.NONE
+    # if current_placement_building and current_placement_building.data.code_name != build:
+    #   Data.build_mode = Data.BuildModes.BUILD
+    #   current_placement_building = create_building(build)
+    #   current_placement_building.position = get_snapped_mouse_pos()
+    #   add_child(current_placement_building)
+  Data.build_mode = Data.BuildModes.BUILD
+  current_placement_building = create_building(build)
+  current_placement_building.position = get_snapped_mouse_pos()
+  add_child(current_placement_building)
   # if toggle_building: toggle_destroying = false
 
-func _toggle_destroy_mode(_val: bool):
+func _toggle_destroy_mode(val: bool):
   # toggle_destroying = !toggle_building
   # if toggle_destroying: Data.build_mode = Data.BuildModes.NONE
-  Data.build_mode = Data.BuildModes.DESTROY
-
+  if val == true:
+    if is_instance_valid(current_placement_building): 
+      current_placement_building.queue_free()
+    Data.build_mode = Data.BuildModes.DESTROY
+  else:
+    Data.build_mode = Data.BuildModes.NONE
 
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.BUILD:
@@ -103,7 +107,10 @@ func can_place_building(build: BuildingTemplate, at: Vector2i):
   var building_cells := get_building_tiles(data_grid, build, at)
   var has_collisions = false
   for cell in building_cells:
-    if data_grid.data[cell]["is_used"]:
+    if data_grid.data.has(cell) and data_grid.data[cell]["is_used"]:
+      has_collisions = true
+      break
+    elif not data_grid.data.has(cell):
       has_collisions = true
       break
   if has_collisions:
@@ -120,7 +127,8 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
   build.origin_tile = building_tile_origin
 
   for cell in building_tiles:
-    data_grid.data[cell]["is_used"] = true  
+    if not get_tile_property(cell, "is_ground"):
+      data_grid.data[cell]["is_used"] = true  
     data_grid.data[cell]["building"] = build
     data_grid.data[cell]["building_cell"] = cell - building_tile_origin
     if build.data.type == "path":
@@ -198,6 +206,8 @@ func preload_building(build: String):
 
       if can_place_building(building, cell) and can_build_preload: 
         add_child(building)
-        place_building( building, cell)
+        place_building(building, cell)
   
-
+func get_tile_property(tile: Vector2i, property: String):
+  if data_grid.data.has(tile):
+    return data_grid.get_cell_tile_data(tile).get_custom_data(property)

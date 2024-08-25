@@ -6,7 +6,7 @@ class_name BuildingData
 ## Must match directory, starting from scenes/placeables!
 ## @example decor/outer_wall
 @export var code_name := "new_building"
-# building | wall | etc...
+## building | wall | ground | path
 @export var type := "building"
 @export var sprite: Texture2D
 
