@@ -4,7 +4,7 @@ extends Node
 @export var building_grid: TileMapLayer
 
 var buildings_prototypes: Dictionary
-@onready var data_grid := DataGridAutoload.data_grid
+@onready var data_grid := Data.data_grid
 
 
 var buildings_names = [
@@ -22,85 +22,55 @@ func _init() -> void:
 
 func _ready() -> void:
   Signals.toggle_build_mode.connect(_toggle_build_mode)
+  Signals.toggle_destroy_mode.connect(_toggle_destroy_mode)
 
 func _toggle_build_mode(build: String):
-  # toggle_building = !toggle_building
-  # if toggle_building:
-  #   current_placement_building = create_building("store")
-  #   current_placement_building.position = get_snapped_mouse_pos()
-  #   add_child(current_placement_building)
-  # else:
-  #   remove_child(current_placement_building)
-  #   current_placement_building.queue_free()
-  # if current_placement_building:
-
-  if toggle_building:
+  if Data.build_mode == Data.BuildModes.BUILD:
     remove_child(current_placement_building)
     current_placement_building.queue_free()
-    toggle_building = false
+    Data.build_mode = Data.BuildModes.NONE
     if current_placement_building and current_placement_building.data.code_name != build:
-      toggle_building = true
+      Data.build_mode = Data.BuildModes.BUILD
       current_placement_building = create_building(build)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
   else:
-      toggle_building = true
+      Data.build_mode = Data.BuildModes.BUILD
       current_placement_building = create_building(build)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
+  # if toggle_building: toggle_destroying = false
+
+func _toggle_destroy_mode(_val: bool):
+  # toggle_destroying = !toggle_building
+  # if toggle_destroying: Data.build_mode = Data.BuildModes.NONE
+  Data.build_mode = Data.BuildModes.DESTROY
 
 
-  # if not toggle_building or (toggle_building and current_placement_building and current_placement_building.data.code_name != build):
-    # remove_child(current_placement_building)
-    # current_placement_building.queue_free()
-# 
-    # toggle_building = true
-    # current_placement_building = create_building(build)
-    # current_placement_building.position = get_snapped_mouse_pos()
-    # add_child(current_placement_building)
-# 
-  # if toggle_building or current_placement_building:
-  #   remove_child(current_placement_building)
-  #   current_placement_building.queue_free()
-  # if toggle_building and current_placement_building:
-  #   toggle_building = false
-  #   remove_child(current_placement_building)
-  #   current_placement_building.queue_free()
-
-  # elif not toggle_building or current_placement_building.data.code_name != build:
-  #   if current_placement_building:
-  #     remove_child(current_placement_building)
-  #     current_placement_building.queue_free()
-  #   toggle_building = true
-  #   current_placement_building = create_building(build)
-  #   current_placement_building.position = get_snapped_mouse_pos()
-  #   add_child(current_placement_building)
-    
-
-
-var toggle_building := false
 func _input(event: InputEvent) -> void:
-  if event.is_action_pressed("a_key") and toggle_building:
+  if event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.BUILD:
     var at = data_grid.local_to_map(current_placement_building.position)
     if can_place_building(current_placement_building, at):
       place_building(current_placement_building, at)
       current_placement_building = create_building(current_placement_building.data.code_name)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
+  elif event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.DESTROY:
+    pass
 
 
 
-var can_build := true
 func _physics_process(_delta: float) -> void:
-  if not toggle_building: pass;
+  if Data.build_mode == Data.BuildModes.NONE: pass;
 
-  if is_instance_valid(current_placement_building) and can_build:
+  if Data.build_mode == Data.BuildModes.BUILD and is_instance_valid(current_placement_building):
     current_placement_building.position = get_snapped_mouse_pos()
     current_placement_building.toggle_cannot_build_shader(
-      can_place_building(
+      not can_place_building(
         current_placement_building, 
         data_grid.local_to_map(current_placement_building.position))
     )
+
 
 func get_snapped_mouse_pos():
   var mouse_pos = world.get_local_mouse_position()

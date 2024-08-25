@@ -8,7 +8,7 @@ extends TileMapLayer
 var data: Dictionary = {}
 
 func _init() -> void:
-    DataGridAutoload.data_grid = self
+    Data.data_grid = self
 
 # func _init() -> void:
 #     ActionManager.data_grid = self

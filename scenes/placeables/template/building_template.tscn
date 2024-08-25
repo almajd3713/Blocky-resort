@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bccwk2kfupgqf"]
+[gd_scene load_steps=7 format=3 uid="uid://bccwk2kfupgqf"]
 
 [ext_resource type="Script" path="res://scenes/placeables/template/building_template.gd" id="1_iya5u"]
 [ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="2_42qj2"]
@@ -15,6 +15,9 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 40, 8)
 }
 point_count = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kftuu"]
+size = Vector2(32, 32)
 
 [node name="BuildingTemplate" type="Node2D"]
 script = ExtResource("1_iya5u")
@@ -35,3 +38,11 @@ checkpoints = null
 movement_speed = null
 
 [node name="Delay" type="Timer" parent="Path2D/PathFollow2D"]
+
+[node name="MouseHoverDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseHoverDetection"]
+position = Vector2(2.41, 3.025)
+shape = SubResource("RectangleShape2D_kftuu")

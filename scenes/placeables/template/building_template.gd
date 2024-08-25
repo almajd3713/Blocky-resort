@@ -29,10 +29,18 @@ func _init(dat = 0) -> void:
 func _ready() -> void:
   $Sprite.texture = data.sprite
   $Sprite.self_modulate.a = 1
-  # $Sprite.material = shader.duplicate()
+  var detection_area_dimensions = $Sprite.get_rect().size
+  $MouseHoverDetection/CollisionShape2D.shape.size = detection_area_dimensions
+  $MouseHoverDetection/CollisionShape2D.position = detection_area_dimensions / 2
+  Signals.destroy_building.connect(_on_mouse_hover)
+
   if data.has_inner_path:
     path = $Path2D
     path_cart = $Path2D/PathFollow2D
 
+func _on_mouse_hover():
+  pass
+
+
 func toggle_cannot_build_shader(what: bool):
-  $Sprite.material.set_shader_parameter("is_applied", not what)
+  $Sprite.material.set_shader_parameter("is_applied", what)

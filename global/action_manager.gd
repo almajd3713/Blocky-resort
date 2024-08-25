@@ -1,7 +1,7 @@
 extends Node
 
 ## Set by data_grid script
-@onready var data_grid := DataGridAutoload.data_grid
+@onready var data_grid := Data.data_grid
 
 func _ready() -> void:
   Signals.store_building.connect(store_building)

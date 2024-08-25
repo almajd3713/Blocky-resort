@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 Signals="*res://global/signals.gd"
 ActionManager="*res://global/action_manager.gd"
-DataGridAutoload="*res://global/autoloads.gd"
+Data="*res://global/autoloads.gd"
 
 [debug]
 

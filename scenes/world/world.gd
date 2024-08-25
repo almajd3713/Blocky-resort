@@ -5,7 +5,7 @@ var building_data := {
 
 }
 
-@onready var data_grid := DataGridAutoload.data_grid
+@onready var data_grid := Data.data_grid
 @onready var building_grid: TileMapLayer = $BuildingGrid
 
 const tile_data_template: Dictionary = {

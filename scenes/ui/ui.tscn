@@ -55,6 +55,12 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Build Path"
 
+[node name="DeleteBuilding" type="CheckButton" parent="GameUI/MarginContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Delete Building"
+
 [node name="CreateActionSeq" type="Button" parent="GameUI/MarginContainer/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2

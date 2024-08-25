@@ -26,3 +26,6 @@ texture = ExtResource("3_2r8jm")
 
 [node name="Path2D" parent="." index="1"]
 curve = SubResource("Curve2D_falbj")
+
+[node name="CollisionShape2D" parent="MouseHoverDetection" index="0"]
+position = Vector2(16, 16)
