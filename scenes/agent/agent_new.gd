@@ -30,6 +30,7 @@ func _input(event: InputEvent) -> void:
 
 var is_moving := false
 func makepath_mouse() -> void:
+  if is_moving: return
   is_moving = true
   nav_agent.target_position = get_global_mouse_position()
   if not nav_agent.is_target_reachable():
@@ -73,20 +74,17 @@ func get_next_action():
 func execute_next_action():
   var action = get_next_action()
   if action:
-    var next_delay = action["rest_time"]
     if action.has("destination"):
       print(action)
       makepath_destination(action["destination"])
-      sleeper.wait_time = next_delay
     elif action.has("path"):
+      action['building'].is_occupied = true
       is_moving = false
       reparent(action["path"], true)
       action["path"].assign_and_start(action["building"], self)
     else:
-      sleeper.wait_time = 1
       sleeper.start()
   else:
-    sleeper.wait_time = 1
     start_sleeper()
 
 func finish_inner_building_path(build: BuildingTemplate):
@@ -95,11 +93,11 @@ func finish_inner_building_path(build: BuildingTemplate):
   # var action2 = ActionManager.create_action({}, "walk_to", "decor/path")
   # action_queue.push_back(action2)
   # execute_next_action()
+  build.is_occupied = false
   start_sleeper()
 
 
 
 func start_sleeper():
-  # sleeper.wait_time = 1
   # if is_moving:
   sleeper.start()

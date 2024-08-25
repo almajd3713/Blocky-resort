@@ -34,13 +34,11 @@ func create_action(_agent_preferences: Dictionary, primitive_action: String, tar
       return {
         "destination": building_entrance,
         "building": building,
-        "rest_time": 2.5
       }
     "walk_in_building":
       return {
         "building": target,
         "path": target.path_cart,
-        "rest_time": 3
       } 
 
 func greg(build: String):

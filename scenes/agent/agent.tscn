@@ -29,5 +29,6 @@ debug_enabled = true
 shape = SubResource("RectangleShape2D_c68pq")
 
 [node name="Sleeper" type="Timer" parent="."]
+wait_time = 0.05
 one_shot = true
 autostart = true

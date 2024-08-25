@@ -8,6 +8,8 @@ class_name BuildingTemplate
 var origin_tile: Vector2i
 var entrance_tile: Vector2i
 
+var is_occupied := false
+
 var path: Path2D
 ## The PathFollow2D
 var path_cart: PathFollow2D

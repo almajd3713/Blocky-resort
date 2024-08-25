@@ -3,12 +3,12 @@ extends PathFollow2D
 ## Format: [String]: [float]
 @export var checkpoints: Dictionary
 @onready var checkpoint_places = checkpoints.keys()
-@onready var checkpoint_queue: Array = checkpoint_places.map(func(): return false)
+@onready var checkpoint_queue: Array = checkpoint_places.map(func(_a): return false)
 
 var assigned_building: BuildingTemplate
 var assigned_agent: Agent
 
-@export var movement_speed := .01
+@export var movement_speed := .001
 
 @onready var delay: Timer = $Delay
 
@@ -18,14 +18,17 @@ func _ready() -> void:
   draw_path()
 
 var is_running: bool = false
+var waiting_for_delay = false
 func _process(_delta: float) -> void:
-  if is_running:
+  if is_running and not waiting_for_delay:
     if progress_ratio <= .99:
       var no_checkpoint_reached := true
       for i in len(checkpoint_queue):
         if progress_ratio >= checkpoint_places[i].to_float() and not checkpoint_queue[i]:
           no_checkpoint_reached = false
-          delay.start(checkpoints[i])
+          checkpoint_queue[i] = true
+          waiting_for_delay = true
+          delay.start(checkpoints[checkpoint_places[i]])
           break
       if no_checkpoint_reached:
         progress()
@@ -34,6 +37,7 @@ func _process(_delta: float) -> void:
 
       
 func progress():
+  waiting_for_delay = false
   progress_ratio += movement_speed
 
       
@@ -46,6 +50,7 @@ func assign_and_start(build: BuildingTemplate, agent: Agent):
   is_running = true
   
 func finish_path():
+  checkpoint_queue = checkpoint_queue.map(func(_a): return false)
   is_running = false
   assigned_agent.reparent(get_node("/root/Main"))
   print("Internal Tour Done")
