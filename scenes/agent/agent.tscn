@@ -20,7 +20,6 @@ texture = ExtResource("1_f38hj")
 path_desired_distance = 8.0
 target_desired_distance = 4.0
 path_postprocessing = 1
-avoidance_enabled = true
 radius = 8.0
 max_neighbors = 4
 debug_enabled = true

@@ -23,6 +23,7 @@ func _reached_real_destination_check():
 
 ## `push_pack, pop_front` for queue-like behavior
 var action_queue := []
+var is_doing_action: bool
 
 var control_agent := false
 func _ready() -> void:
@@ -76,11 +77,13 @@ func _physics_process(delta: float) -> void:
     nav_agent.target_position = current_dest
     set_velocity_custom(delta)
     move_and_slide()
-  elif is_moving:
-    global_position = Data.get_global_from_tile(target_tile)
-    is_moving = false
-    print("dest reached!")
-    sleeper.start()
+  else:
+    velocity = Vector2.ZERO
+  # elif is_moving:
+  #   global_position = Data.get_global_from_tile(target_tile)
+  #   is_moving = false
+  #   print("dest reached!")
+  #   sleeper.start()
     # if nav_agent.is_navigation_finished():
     #   nav_agent.target_position = global_position
     #   is_moving = false
@@ -97,29 +100,33 @@ func set_velocity_custom(delta: float):
 func create_action():
   var action_seq = ActionManager.create_action_sequence({}, "buy")
   for el in action_seq: action_queue.push_back(el)
-  is_moving = true
-  start_sleeper()
+  if not is_moving:
+    is_moving = true
+    start_sleeper()
+
 
 func get_next_action():
   return action_queue.pop_front()
 
 func execute_next_action():
   var action = get_next_action()
-  if action:
-    print(action)
-    if action['type'] == 'walk_to':
-      makepath_destination(action['destination'])
-    if action['type'] == "walk_to_building":
-      makepath_destination(action["destination"])
-      if action['building'].data.has_inner_path:
-        action['building'].assigned_agent = self
-    elif action['type'] == "walk_in_building":
-      # action['building'].is_occupied = true
-      is_moving = false
-      reparent(action["path"], true)
-      action["path"].assign_and_start(action["building"], self)
-    else:
-      sleeper.start()
+  if is_doing_action == false:
+    is_doing_action = true
+    if action:
+      print(action)
+      if action['type'] == 'walk_to':
+        makepath_destination(action['destination'])
+      if action['type'] == "walk_to_building":
+        makepath_destination(action["destination"])
+        if action['building'].data.has_inner_path:
+          action['building'].assigned_agent = self
+      elif action['type'] == "walk_in_building" and is_instance_valid(action['building']):
+        # action['building'].is_occupied = true
+        is_moving = false
+        reparent(action["path"], true)
+        action["path"].assign_and_start(action["building"], self)
+      else:
+        sleeper.start()
   else:
     start_sleeper()
 
@@ -130,6 +137,7 @@ func finish_inner_building_path(build: BuildingTemplate = null):
   # action_queue.push_back(action2)
   # execute_next_action()
   # if build: build.is_occupied = false
+  is_doing_action = false
   start_sleeper()
 
 
