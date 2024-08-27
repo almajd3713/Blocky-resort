@@ -39,10 +39,8 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
   var velocity = speed * delta * dir * (1 / zoom_level)
-  print(velocity)
   global_position += velocity
 
-  print(zoom_level)
   zoom.x = zoom_level; zoom.y = zoom_level
 
 
