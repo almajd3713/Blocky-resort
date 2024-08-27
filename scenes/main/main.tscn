@@ -16,5 +16,7 @@ metadata/_edit_lock_ = true
 
 [node name="Camera" parent="." instance=ExtResource("4_urinl")]
 position = Vector2(0, 0)
+zoom = Vector2(1, 1)
+zoom_level = null
 
 [node name="Agent" parent="." instance=ExtResource("4_8hrwd")]

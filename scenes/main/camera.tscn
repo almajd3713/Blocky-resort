@@ -7,3 +7,5 @@ position = Vector2(152, 142)
 zoom = Vector2(2.24, 2.24)
 script = ExtResource("1_to8kd")
 speed = null
+zoom_level = null
+zoom_boundaries = null

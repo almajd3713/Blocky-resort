@@ -51,15 +51,15 @@ func _toggle_destroy_mode(val: bool):
   else:
     Data.build_mode = Data.BuildModes.NONE
 
-func _input(event: InputEvent) -> void:
-  if event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.BUILD:
+func _unhandled_input(event: InputEvent) -> void:
+  if event.is_action_pressed("lmb_click") and Data.build_mode == Data.BuildModes.BUILD:
     var at = data_grid.local_to_map(current_placement_building.position)
     if can_place_building(current_placement_building, at):
       place_building(current_placement_building, at)
       current_placement_building = create_building(current_placement_building.data.code_name)
       current_placement_building.position = get_snapped_mouse_pos()
       add_child(current_placement_building)
-  elif event.is_action_pressed("a_key") and Data.build_mode == Data.BuildModes.DESTROY:
+  elif event.is_action_pressed("lmb_click") and Data.build_mode == Data.BuildModes.DESTROY:
     var at = local_to_map(get_snapped_mouse_pos())
     if data_grid.data.has(at):
       # print(data_grid.data[at]['building_cell'])

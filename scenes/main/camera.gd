@@ -1,11 +1,14 @@
 extends Camera2D
 
-@export var speed := 200
+@export var speed := 800
 
 func _ready() -> void:
   reset_directions()
 
-var dir := Vector2i.ZERO
+@export var zoom_level := 1.0
+@export var zoom_boundaries := [1.0, 2.5]
+
+var dir := Vector2.ZERO
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed("cam_up"):
     dir.y -= 1
@@ -23,14 +26,24 @@ func _input(event: InputEvent) -> void:
     dir.x += 1
   if event.is_action_released("cam_right"):
     dir.x -= 1
+  if event.is_action_pressed("cam_zoom_in") and zoom_level <= zoom_boundaries.max():
+    zoom_level += .2
+  if event.is_action_pressed("cam_zoom_out") and zoom_level >= zoom_boundaries.min():
+    zoom_level -= .2
+  
+
 
 
 
 
 
 func _process(delta: float) -> void:
-  var velocity = speed * delta * dir
+  var velocity = speed * delta * dir * (1 / zoom_level)
+  print(velocity)
   global_position += velocity
+
+  print(zoom_level)
+  zoom.x = zoom_level; zoom.y = zoom_level
 
 
 

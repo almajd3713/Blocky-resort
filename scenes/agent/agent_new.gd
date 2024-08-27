@@ -84,8 +84,8 @@ func _physics_process(delta: float) -> void:
     #   is_moving = false
   # else if mode == "follow":
   # print(is_doing_action)
-  print("Current queue: ", action_queue)
-  print("Current action: ", current_action)
+  # print("Current queue: ", action_queue)
+  # print("Current action: ", current_action)
 
   if not current_action: 
     execute_next_action()
@@ -94,7 +94,7 @@ func _physics_process(delta: float) -> void:
     "walk_to_building", "walk_to":
       var current_tile = Data.get_tile_from_global(global_position)
       var target_tile = Data.get_tile_from_global(nav_agent.target_position)
-      print(current_tile, target_tile, current_tile == target_tile)
+      # print(current_tile, target_tile, current_tile == target_tile)
 
       if current_tile != target_tile:
         nav_agent.target_position = current_dest
@@ -135,10 +135,10 @@ func execute_next_action():
       set_action(action)
       match action['type']:
         'walk_to':
-          var is_reachable = makepath_destination(action['destination'])
+          var _is_reachable = makepath_destination(action['destination'])
 
         'walk_to_building':
-          var is_reachable = makepath_destination(action["destination"], action['building'])
+          var _is_reachable = makepath_destination(action["destination"], action['building'])
 
           if action['building'].data.has_inner_path:
             action['building'].assigned_agent = self
