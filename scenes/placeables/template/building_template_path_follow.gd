@@ -41,7 +41,7 @@ func progress():
   progress_ratio += movement_speed
 
 func _exit_tree() -> void:
-  if assigned_agent: assigned_agent.finish_inner_building_path()
+  if assigned_agent: assigned_agent.nav_agent.finish_inner_building_path()
 
 func assign_and_start(build: BuildingTemplate, agent: Agent):
   progress_ratio = 0
@@ -55,7 +55,7 @@ func finish_path():
   is_running = false
   assigned_agent.reparent(get_node("/root/Main"))
   print("Internal Tour Done")
-  assigned_agent.finish_inner_building_path(assigned_building)
+  assigned_agent.nav_agent.finish_inner_building_path(assigned_building)
 
   assigned_agent = null
   assigned_building = null

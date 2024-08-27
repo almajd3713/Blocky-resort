@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://l7qr1rq17r1j"]
+[gd_scene load_steps=5 format=3 uid="uid://l7qr1rq17r1j"]
 
 [ext_resource type="Texture2D" uid="uid://cepjsvtghkij" path="res://icon.svg" id="1_f38hj"]
 [ext_resource type="Script" path="res://scenes/agent/agent_new.gd" id="1_llw0m"]
+[ext_resource type="Script" path="res://scenes/agent/nav_agent.gd" id="3_hoolm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c68pq"]
 size = Vector2(8, 8)
@@ -23,6 +24,7 @@ path_postprocessing = 1
 radius = 8.0
 max_neighbors = 4
 debug_enabled = true
+script = ExtResource("3_hoolm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_c68pq")

@@ -3,10 +3,6 @@ extends Node
 ## Set by data_grid script
 @onready var data_grid := Data.data_grid
 
-
-
-
-
 ## Finds the best building to satisfy the required action, by distance or whatever
 func get_satisfier_building(building: String, id: int):
 	var buildings_of_type := []
