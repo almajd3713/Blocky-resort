@@ -64,7 +64,7 @@ func _input(event: InputEvent) -> void:
     if data_grid.data.has(at):
       # print(data_grid.data[at]['building_cell'])
       var build = data_grid.data[at].building
-      if not build.data.is_ground: 
+      if build and not build.data.is_ground and not build.agent_in_building: 
         destroy_building(build, build.origin_tile)
 
 
@@ -151,6 +151,7 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
   else:
     build.entrance_tile = building_tile_origin
   Signals.store_building.emit(build)
+  Signals.build_building.emit()
   
 func destroy_building(build: BuildingTemplate, at: Vector2i):
   var building_tiles = get_building_tiles(data_grid, build, at)

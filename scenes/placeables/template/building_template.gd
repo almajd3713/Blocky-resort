@@ -27,6 +27,7 @@ func _init(dat = 0) -> void:
 	if dat:
 		data = dat
 
+@onready var detection_area: Area2D = $MouseHoverDetection
 func _ready() -> void:
 	$Sprite.texture = data.sprite
 	$Sprite.self_modulate.a = 1
@@ -34,12 +35,17 @@ func _ready() -> void:
 	$MouseHoverDetection/CollisionShape2D.shape.size = detection_area_dimensions
 	$MouseHoverDetection/CollisionShape2D.position = detection_area_dimensions / 2
 	if not data.is_ground:
-		$MouseHoverDetection.mouse_entered.connect(_on_mouse_enter)
-		$MouseHoverDetection.mouse_exited.connect(_on_mouse_exit)
+		detection_area.mouse_entered.connect(_on_mouse_enter)
+		detection_area.mouse_exited.connect(_on_mouse_exit)
 
 	if data.has_inner_path:
 		path = $Path2D
 		path_cart = $Path2D/PathFollow2D
+	# $MouseHoverDetection.body_entered.connect(_on_agent_enters)
+	# $MouseHoverDetection.body_exited.connect(_on_agent_leaves)
+func _physics_process(_delta):
+	check_occupation()
+
 
 func _on_mouse_enter():
 	if Data.build_mode == Data.BuildModes.DESTROY:
@@ -47,24 +53,36 @@ func _on_mouse_enter():
 func _on_mouse_exit():
 	if Data.build_mode == Data.BuildModes.DESTROY:
 		toggle_cannot_build_shader(false)
-func _on_agent_enters(agent: Agent):
-	if agent == assigned_agent:
+# func _on_agent_enters(agent: Agent):
+# 	if agent == assigned_agent:
+# 		agent_in_building = true
+# 		print("AA")
+# func _on_agent_leaves(agent: Agent):
+# 	if agent == assigned_agent:
+# 		agent_in_building = false
+# 		print("BB")
+func check_occupation():
+	if not assigned_agent: return
+	if not agent_in_building and assigned_agent in detection_area.get_overlapping_bodies():
 		agent_in_building = true
-func _on_agent_leaves(agent: Agent):
-	assigned_agent = null
-	agent_in_building = false
+	elif agent_in_building and not assigned_agent in detection_area.get_overlapping_bodies():
+		agent_in_building = false
 
+# func _exit_tree() -> void:
+# 	if assigned_agent and agent_in_building:
+# 		var nearest_escape = Data.find_nearest_building(entrance_tile, 10)
+# 		var nearest_escape_coord = Data.get_global_from_tile(nearest_escape.origin_tile)
+# 		if nearest_escape:
+# 			print("Nearest tile to ", entrance_tile, " is ", nearest_escape)
+# 			assigned_agent.reparent(get_node('/root/Main'))
+# 			assigned_agent.global_position = nearest_escape_coord
+# 			assigned_agent.current_dest = nearest_escape_coord
+# 	elif assigned_agent:
+# 		assigned_agent.action_cleanup()
 func _exit_tree() -> void:
-	if assigned_agent and agent_in_building:
-		var nearest_escape = Data.find_nearest_building(entrance_tile, 10)
-		var nearest_escape_coord = Data.get_global_from_tile(nearest_escape.origin_tile)
-		if nearest_escape:
-			print("Nearest tile to ", entrance_tile, " is ", nearest_escape)
-			assigned_agent.reparent(get_node('/root/Main'))
-			assigned_agent.global_position = nearest_escape_coord
-			assigned_agent.current_dest = nearest_escape_coord
-	elif assigned_agent:
-		assigned_agent.nav_agent.target_position = assigned_agent.global_position
+	if assigned_agent:
+		assigned_agent.action_cleanup(self)
+		
 
 		
 
