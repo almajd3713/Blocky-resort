@@ -17,7 +17,7 @@ func _ready() -> void:
     control_agent = val
     if not control_agent:
       action_queue = action_queue.filter(func(ent): return ent['type'] != 'walk_to')
-      if current_action['type'] == 'walk_to': current_action = null
+      if current_action and current_action['type'] == 'walk_to': current_action = null
   )
   Signals.create_action_sequence.connect(create_action)
   Signals.build_building.connect(recalculate_path)
