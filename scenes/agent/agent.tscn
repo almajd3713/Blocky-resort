@@ -1,16 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://l7qr1rq17r1j"]
+[gd_scene load_steps=7 format=3 uid="uid://l7qr1rq17r1j"]
 
 [ext_resource type="Texture2D" uid="uid://cepjsvtghkij" path="res://icon.svg" id="1_f38hj"]
-[ext_resource type="Script" path="res://scenes/agent/agent_new.gd" id="1_llw0m"]
+[ext_resource type="Script" path="res://scenes/agent/agent.gd" id="1_llw0m"]
 [ext_resource type="Script" path="res://scenes/agent/nav_agent.gd" id="3_hoolm"]
+[ext_resource type="Script" path="res://scenes/agent/personality.gd" id="4_jhisr"]
+[ext_resource type="Script" path="res://scenes/agent/decision_taker.gd" id="5_3wch0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c68pq"]
 size = Vector2(8, 8)
 
 [node name="Agent" type="CharacterBody2D"]
-z_index = 5
+z_index = 2
+z_as_relative = false
 collision_layer = 4
 collision_mask = 0
+input_pickable = true
 script = ExtResource("1_llw0m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -18,6 +22,7 @@ scale = Vector2(0.0689771, 0.0689771)
 texture = ExtResource("1_f38hj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
 path_desired_distance = 8.0
 target_desired_distance = 4.0
 path_postprocessing = 1
@@ -29,7 +34,10 @@ script = ExtResource("3_hoolm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_c68pq")
 
-[node name="Sleeper" type="Timer" parent="."]
-wait_time = 0.05
-one_shot = true
-autostart = true
+[node name="Personality" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_jhisr")
+
+[node name="DecisionTaker" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_3wch0")

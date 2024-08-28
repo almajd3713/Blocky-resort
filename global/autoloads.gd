@@ -2,9 +2,12 @@ extends Node
 
 var data_grid: TileMapLayer
 
+
 enum BuildModes {
   NONE, BUILD, DESTROY
 }
+enum Gender {MALE, FEMALE}
+
 var build_mode := BuildModes.NONE
 
 var agents: Array[Agent] = []

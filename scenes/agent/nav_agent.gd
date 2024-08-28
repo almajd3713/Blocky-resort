@@ -87,7 +87,7 @@ func get_next_action():
   return action_queue.pop_front()
 
 func execute_next_action():
-  print("Current queue", action_queue)
+  # print("Current queue", action_queue)
   if not current_action:
     var action = get_next_action()
     if action:

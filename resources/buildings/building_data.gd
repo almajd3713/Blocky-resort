@@ -8,6 +8,7 @@ class_name BuildingData
 @export var code_name := "new_building"
 ## building | wall | ground | path
 @export var type := "building"
+@export var category := "general"
 @export var sprite: Texture2D
 
 @export_category("Dimensions")
@@ -21,3 +22,5 @@ class_name BuildingData
 @export var has_inner_path := false
 ## This means it can be built on
 @export var is_ground := false
+## This means that whatever is done there is 'sussy', basically hides the agent when its inside.
+@export var is_private := false

@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmhi3iume7ida"]
+
+[ext_resource type="Script" path="res://scenes/ui/character_ui.gd" id="1_ovst8"]
+[ext_resource type="Theme" uid="uid://yl5xdo8fwakx" path="res://assets/themes/main_theme.tres" id="1_ujjks"]
+[ext_resource type="Script" path="res://scenes/components/animation_component.gd" id="3_gmagy"]
+[ext_resource type="Texture2D" uid="uid://ci4w15lekj6h0" path="res://assets/icons/close_button.svg" id="4_vv48a"]
+
+[node name="CharacterUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme = ExtResource("1_ujjks")
+script = ExtResource("1_ovst8")
+
+[node name="AnimationComponent" type="Node" parent="."]
+script = ExtResource("3_gmagy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 424.0
+grow_vertical = 2
+scale = Vector2(0.86, 0.86)
+alignment = 1
+
+[node name="CharacterUIPanelContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(192, 324)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CharacterUIPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="CloseButton" type="TextureButton" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+texture_normal = ExtResource("4_vv48a")
+
+[node name="CharacterName" type="Label" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name: <first_name> <last_name>"
+
+[node name="Gender" type="Label" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name: <first_name> <last_name>"
+
+[node name="Traits" type="Label" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Traits: "
+
+[node name="TraitList" type="VBoxContainer" parent="VBoxContainer/CharacterUIPanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2

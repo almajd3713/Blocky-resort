@@ -150,6 +150,8 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
     build.entrance_tile = get_map_entrance_tile(build, building_tile_origin)
   else:
     build.entrance_tile = building_tile_origin
+  if build.data.is_private:
+    build.z_index = 4
   Signals.store_building.emit(build)
   Signals.build_building.emit()
   
@@ -171,6 +173,8 @@ func set_cell(cell: Vector2i, type: String = "building"):
       data_grid.set_cell(cell, 0, Vector2i(0,0))
     "entrance":
       data_grid.set_cell(cell, 0, Vector2i(0,0))
+    "ground":
+      data_grid.set_cell(cell, 0, Vector2i(0,2))
     _:
       data_grid.set_cell(cell, 0, Vector2i(0,2))
 
@@ -227,7 +231,10 @@ func preload_building(build: String):
       if can_place_building(building, cell) and can_build_preload: 
         add_child(building)
         place_building(building, cell)
-  
+
+# func preload_ground():
+
+
 func get_tile_property(tile: Vector2i, property: String):
   if data_grid.data.has(tile):
     return data_grid.get_cell_tile_data(tile).get_custom_data(property)

@@ -7,3 +7,5 @@ signal destroy_building(build: BuildingTemplate)
 signal move_agent(val: bool)
 signal store_building(build: BuildingTemplate)
 signal create_action_sequence
+
+signal toggle_character_ui(agent: Agent)
