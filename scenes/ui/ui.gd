@@ -5,7 +5,7 @@ extends CanvasLayer
 
 
 func _ready() -> void:
-  game_ui.buildStore.pressed.connect(func(): Signals.toggle_build_mode.emit("store"))
+  game_ui.buildStore.pressed.connect(func(): Signals.toggle_build_mode.emit("luxury/store"))
   game_ui.buildPath.pressed.connect(func(): Signals.toggle_build_mode.emit("decor/path"))
   game_ui.delBuilding.toggled.connect(func(val): Signals.toggle_destroy_mode.emit(val))
   game_ui.createActSeq.pressed.connect(func(): Signals.create_action_sequence.emit())

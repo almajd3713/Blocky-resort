@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3 uid="uid://gx3fowf4tnxn"]
+
+[ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/_template/building_template.tscn" id="1_by7pa"]
+[ext_resource type="Resource" uid="uid://bijom1ofyvfwh" path="res://resources/placeables/util/restroom.tres" id="2_ttf1q"]
+[ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="3_pktiy"]
+[ext_resource type="Texture2D" uid="uid://2dpsmlhkw64c" path="res://assets/buildings/restrooms.png" id="4_4v307"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w8jlx"]
+resource_local_to_scene = true
+shader = ExtResource("3_pktiy")
+shader_parameter/is_applied = null
+
+[sub_resource type="Curve2D" id="Curve2D_j8d4t"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 40, 8)
+}
+point_count = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_divtt"]
+resource_local_to_scene = true
+size = Vector2(32, 32)
+
+[node name="BuildingTemplate" instance=ExtResource("1_by7pa")]
+data = ExtResource("2_ttf1q")
+
+[node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_w8jlx")
+texture = ExtResource("4_4v307")
+
+[node name="Path2D" parent="." index="1"]
+curve = SubResource("Curve2D_j8d4t")
+
+[node name="CollisionShape2D" parent="MouseHoverDetection" index="0"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_divtt")

@@ -3,18 +3,14 @@ extends Node
 @export var world: Node2D
 @export var building_grid: TileMapLayer
 
-var buildings_prototypes: Dictionary
 @onready var data_grid := Data.data_grid
 
 
 
 var current_placement_building: BuildingTemplate
 
-func _init() -> void:
-  for build in Data.building_names:
-    var full_path = get_building_scene_path(build)
-    buildings_prototypes[build] = load(full_path)
-  pass;
+# func _init() -> void:
+
 
 
 func _ready() -> void:
@@ -102,11 +98,12 @@ func global_to_map(at: Vector2i):
 func get_local_tile_center(at: Vector2i) -> Vector2i:
   return map_to_local(at) + data_grid.size
 
-func get_building_scene_path(build: String):
-  return "res://scenes/placeables/" + build + ".tscn"
+
 
 func create_building(build: String):
-  var building = buildings_prototypes[build].instantiate()
+  var building = Data.buildings_prototypes[build].instantiate()
+  if building.data.is_private:
+    building.z_index = 4
   return building
 
 # `at` is relative to data_grid
@@ -145,13 +142,14 @@ func place_building(build: BuildingTemplate, at: Vector2i) -> void:
       set_cell(cell)
     if cell == building_tile_origin:
       build.position = building_pos[0] - Vector2(8, 8)
+    print(data_grid.data[cell])
   if build.data.is_enterable:
     set_cell(get_map_entrance_tile(build, building_tile_origin), "entrance")
     build.entrance_tile = get_map_entrance_tile(build, building_tile_origin)
   else:
     build.entrance_tile = building_tile_origin
-  if build.data.is_private:
-    build.z_index = 4
+  # if build.data.is_private:
+    # build.z_index = 4
   Signals.store_building.emit(build)
   Signals.build_building.emit()
   

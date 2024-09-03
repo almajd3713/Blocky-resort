@@ -23,9 +23,9 @@ func _ready() -> void:
   $BuildingFactory.building_grid = building_grid
 
 
-  $BuildingFactory.preload_building("decor/outer_wall")
+  $BuildingFactory.preload_building("none/outer_wall")
   $BuildingFactory.preload_building("decor/path")
-  $BuildingFactory.preload_building("decor/sand")
+  $BuildingFactory.preload_building("none/sand")
 
     # var preloaded_data = grid.get_cell_tile_data(cell)
     # if preloaded_data and preloaded_data.get_custom_data("Wall"):

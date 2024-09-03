@@ -59,12 +59,6 @@ func set_data():
 
 
 func setup_close_button():
-  close_button.pressed.connect(func():
+  Data.click_listener(close_button, func():
     selectedAgent = null  
-  )
-  close_button.mouse_entered.connect(func():
-    mouse_default_cursor_shape = CURSOR_POINTING_HAND
-  )
-  close_button.mouse_exited.connect(func():
-    mouse_default_cursor_shape = CURSOR_ARROW
   )

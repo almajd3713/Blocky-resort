@@ -8,7 +8,7 @@ class_name BuildingData
 @export var code_name := "new_building"
 ## building | wall | ground | path
 @export var type := "building"
-@export var category := "general"
+@export var category: Data.BuildingCategory = Data.BuildingCategory.ROOM
 @export var sprite: Texture2D
 
 @export_category("Dimensions")

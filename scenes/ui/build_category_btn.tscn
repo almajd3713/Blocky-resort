@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj21xcfneben2"]
+
+[ext_resource type="Script" path="res://scenes/ui/build_category_btn.gd" id="1_0jvem"]
+[ext_resource type="Texture2D" uid="uid://2dpsmlhkw64c" path="res://assets/buildings/restrooms.png" id="1_dtssx"]
+
+[node name="BuildCategory" type="PanelContainer"]
+texture_filter = 1
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_0jvem")
+category = null
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Btn" type="TextureButton" parent="MarginContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_dtssx")

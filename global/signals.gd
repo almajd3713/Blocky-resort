@@ -9,3 +9,4 @@ signal store_building(build: BuildingTemplate)
 signal create_action_sequence
 
 signal toggle_character_ui(agent: Agent)
+signal open_category(category)

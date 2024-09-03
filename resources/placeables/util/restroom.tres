@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3 uid="uid://bijom1ofyvfwh"]
+
+[ext_resource type="Script" path="res://resources/placeables/building_data.gd" id="1_texi7"]
+[ext_resource type="Texture2D" uid="uid://2dpsmlhkw64c" path="res://assets/buildings/restrooms.png" id="2_lbktv"]
+
+[resource]
+script = ExtResource("1_texi7")
+name = "Restroom"
+code_name = "util/restroom"
+type = "building"
+category = 3
+sprite = ExtResource("2_lbktv")
+cells = Vector2i(2, 2)
+unnatural_cells = Array[Vector2i]([])
+is_enterable = true
+entrance_cell = Vector2i(0, 0)
+has_inner_path = false
+is_ground = false
+is_private = true

@@ -9,6 +9,8 @@ class_name AnimationComponent extends Node
 
 @onready var target := get_parent()
 
-func add_transition(property: String, value):
+func add_transition(property: String, value, callback: Callable = func(): return):
   var tween = create_tween()
   tween.tween_property(target, property, value, time).set_trans(transition_type).set_ease(ease_type)
+  await tween.finished
+  callback.call()

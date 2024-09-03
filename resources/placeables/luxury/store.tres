@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3 uid="uid://bh1f0x45sxilj"]
 
-[ext_resource type="Script" path="res://resources/buildings/building_data.gd" id="1_tc5hi"]
-[ext_resource type="Texture2D" uid="uid://j3tflp2ev63g" path="res://assets/store.png" id="2_2f0c8"]
+[ext_resource type="Script" path="res://resources/placeables/building_data.gd" id="1_tc5hi"]
+[ext_resource type="Texture2D" uid="uid://j3tflp2ev63g" path="res://assets/buildings/store.png" id="2_2f0c8"]
 
 [resource]
 script = ExtResource("1_tc5hi")
 name = "Store"
-code_name = "store"
+code_name = "luxury/store"
 type = "building"
-category = "general"
+category = 2
 sprite = ExtResource("2_2f0c8")
 cells = Vector2i(3, 3)
 unnatural_cells = Array[Vector2i]([])

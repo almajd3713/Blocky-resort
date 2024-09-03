@@ -1,0 +1,103 @@
+[gd_scene load_steps=5 format=3 uid="uid://buwi780ct6sb0"]
+
+[ext_resource type="Script" path="res://scenes/ui/build_ui.gd" id="1_sne47"]
+[ext_resource type="Script" path="res://scenes/components/animation_component.gd" id="2_mte2i"]
+[ext_resource type="PackedScene" uid="uid://cj21xcfneben2" path="res://scenes/ui/build_category_btn.tscn" id="3_qy8si"]
+[ext_resource type="PackedScene" uid="uid://1tmlpxbcehen" path="res://scenes/ui/build_item.tscn" id="4_lnpq8"]
+
+[node name="BuildUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00487, 1)
+mouse_filter = 2
+script = ExtResource("1_sne47")
+
+[node name="AnimationComponent" type="Node" parent="."]
+script = ExtResource("2_mte2i")
+
+[node name="BuildCategoriesUI" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -51.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="BuildCategoriesUI"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="BuildCategoriesUI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildCategoriesUI/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BuildCategory_General" parent="BuildCategoriesUI/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_qy8si")]
+layout_mode = 2
+category = 1
+
+[node name="BuildCategory_Luxury" parent="BuildCategoriesUI/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_qy8si")]
+layout_mode = 2
+category = 2
+
+[node name="BuildCategory_Util" parent="BuildCategoriesUI/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_qy8si")]
+layout_mode = 2
+category = 3
+
+[node name="BuildCategory_Path" parent="BuildCategoriesUI/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_qy8si")]
+layout_mode = 2
+category = 4
+
+[node name="BuildCategory_Decor" parent="BuildCategoriesUI/PanelContainer/MarginContainer/HBoxContainer" instance=ExtResource("3_qy8si")]
+layout_mode = 2
+category = 5
+
+[node name="BuildDetailedUI" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 648.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="BuildDetailedUI"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="BuildDetailedUI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="BuildItemContainer" type="HBoxContainer" parent="BuildDetailedUI/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="BuildItem" parent="BuildDetailedUI/PanelContainer/MarginContainer/BuildItemContainer" instance=ExtResource("4_lnpq8")]
+layout_mode = 2
+
+[node name="AnimationComponent" type="Node" parent="BuildDetailedUI"]
+script = ExtResource("2_mte2i")
+time = 0.2
+transition_type = 4
+ease_type = 1

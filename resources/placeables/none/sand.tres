@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3 uid="uid://c0ko0uv772p6n"]
 
-[ext_resource type="Script" path="res://resources/buildings/building_data.gd" id="1_ly5mf"]
-[ext_resource type="Texture2D" uid="uid://dwevyfp5xrq5k" path="res://assets/sand.png" id="2_r4f3i"]
+[ext_resource type="Script" path="res://resources/placeables/building_data.gd" id="1_ly5mf"]
+[ext_resource type="Texture2D" uid="uid://dwevyfp5xrq5k" path="res://assets/bg/sand.png" id="2_r4f3i"]
 
 [resource]
 script = ExtResource("1_ly5mf")
 name = "Sand"
 code_name = "decor/sand"
 type = "ground"
+category = 4
 sprite = ExtResource("2_r4f3i")
 cells = null
 unnatural_cells = null
@@ -15,3 +16,4 @@ is_enterable = false
 entrance_cell = null
 has_inner_path = null
 is_ground = true
+is_private = false

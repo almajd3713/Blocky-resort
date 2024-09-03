@@ -26,9 +26,14 @@ Data="*res://global/autoloads.gd"
 gdscript/warnings/unused_signal=0
 gdscript/warnings/integer_division=0
 
+[display]
+
+window/size/mode=2
+
 [file_customization]
 
 folder_colors={
+"res://addons/": "purple",
 "res://assets/": "red",
 "res://global/": "yellow",
 "res://resources/": "teal"
@@ -89,3 +94,7 @@ cam_zoom_out={
 2d_navigation/layer_2="obstacle"
 2d_physics/layer_3="npcs"
 2d_physics/layer_4="buildings/empty"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

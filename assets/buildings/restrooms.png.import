@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2vcjwfjybln5"
-path="res://.godot/imported/path.png-a9090fb0db6cbb1d4a1ceae046669e03.ctex"
+uid="uid://2dpsmlhkw64c"
+path="res://.godot/imported/restrooms.png-cf19808442952f795eb481f0f553bd65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/path.png"
-dest_files=["res://.godot/imported/path.png-a9090fb0db6cbb1d4a1ceae046669e03.ctex"]
+source_file="res://assets/buildings/restrooms.png"
+dest_files=["res://.godot/imported/restrooms.png-cf19808442952f795eb481f0f553bd65.ctex"]
 
 [params]
 

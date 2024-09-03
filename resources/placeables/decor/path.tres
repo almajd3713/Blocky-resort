@@ -1,16 +1,19 @@
 [gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3 uid="uid://cynwi7ecwuwfl"]
 
-[ext_resource type="Script" path="res://resources/buildings/building_data.gd" id="1_futof"]
-[ext_resource type="Texture2D" uid="uid://c2vcjwfjybln5" path="res://assets/path.png" id="2_1fc7y"]
+[ext_resource type="Script" path="res://resources/placeables/building_data.gd" id="1_futof"]
+[ext_resource type="Texture2D" uid="uid://c2vcjwfjybln5" path="res://assets/bg/path.png" id="2_1fc7y"]
 
 [resource]
 script = ExtResource("1_futof")
 name = "Path"
 code_name = "decor/path"
 type = "path"
+category = 4
 sprite = ExtResource("2_1fc7y")
 cells = Vector2i(1, 1)
 unnatural_cells = Array[Vector2i]([])
 is_enterable = false
 entrance_cell = Vector2i(0, 0)
 has_inner_path = false
+is_ground = false
+is_private = false

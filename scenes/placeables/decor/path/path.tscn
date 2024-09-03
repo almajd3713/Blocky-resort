@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://b0opaarq0p04s"]
 
-[ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/template/building_template.tscn" id="1_mtsm3"]
-[ext_resource type="Resource" uid="uid://cynwi7ecwuwfl" path="res://resources/buildings/decor/path.tres" id="2_bj5um"]
+[ext_resource type="PackedScene" uid="uid://bccwk2kfupgqf" path="res://scenes/placeables/_template/building_template.tscn" id="1_mtsm3"]
+[ext_resource type="Resource" uid="uid://cynwi7ecwuwfl" path="res://resources/placeables/decor/path.tres" id="2_bj5um"]
 [ext_resource type="Shader" path="res://assets/shaders/cannot_build.gdshader" id="3_8genk"]
-[ext_resource type="Texture2D" uid="uid://c2vcjwfjybln5" path="res://assets/path.png" id="4_a5o4k"]
+[ext_resource type="Texture2D" uid="uid://c2vcjwfjybln5" path="res://assets/bg/path.png" id="4_a5o4k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eqh0k"]
 resource_local_to_scene = true

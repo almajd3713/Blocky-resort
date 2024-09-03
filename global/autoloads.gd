@@ -2,19 +2,39 @@ extends Node
 
 var data_grid: TileMapLayer
 
+var buildings_prototypes: Dictionary
+var building_data: Dictionary
+
+func get_building_scene_path(build: String):
+  return "res://scenes/placeables/" + build + "/" + build.split("/")[1] + ".tscn"
+func get_building_resource_path(build: String):
+  return "res://resources/placeables/" + build + ".tres"
+
+func _init() -> void:
+  for build in building_names:
+    var scene_path = get_building_scene_path(build)
+    var resource_path = get_building_resource_path(build)
+    buildings_prototypes[build] = load(scene_path)
+    building_data[build] = load(resource_path)
 
 enum BuildModes {
   NONE, BUILD, DESTROY
 }
 enum Gender {MALE, FEMALE}
 
+enum BuildingCategory {
+  NONE, ROOM, LUXURY, UTIL, PATH, DECOR
+}
+
 var build_mode := BuildModes.NONE
 
 var agents: Array[Agent] = []
 
 var building_names := [
-  "store", 
-  "decor/outer_wall", "decor/path", "decor/sand"
+  "none/outer_wall", "none/sand", 
+  "luxury/store", 
+  "util/restroom", 
+  "decor/path"
 ]
 
 func get_tile_from_global(coord: Vector2):
@@ -60,19 +80,13 @@ func find_nearest_building(from: Vector2i, search_limit: int):
     if dir == directions.NORTH: dx = 0; dy = -1
 
     x += dx; y += dy
-  # var X = from.x; var Y = from.y
-  # var x = X; var y = Y
-  # var dx = 0; var dy = -1
-  # for i in range(max(X, Y) ** 2):
-  #   # print("-", X,"/2 < ",x," and ",x," <= ", X," /2: ", -X/2 < x and x <= X/2)
-  #   # print("-", Y,"/2 < ",y," and ",y," <= ", Y," /2: ", -Y/2 < y and y <= Y/2)
-  #   print(-X/2 ,"<", x ," and ", x ,"<=", X/2, " : ", -X/2 < x and x <= X/2)
-  #   print(-Y/2 ,"<", x ," and ", x ,"<=", Y/2, " : ", -Y/2 < Y + x and x <= Y/2)
 
-  #   if(-X/2 < X + x and X + x <= X/2) and (-Y/2 < Y + y and Y + y <= Y/2):
-  #     if data_grid.data[Vector2i(x, y)]['is_walkable']:
-  #       print("Found! ", data_grid.data[Vector2i(X + x, Y + y)]['building'])
-  #       return data_grid.data[Vector2i(X + x, Y + y)]['building']
-  #   if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y):
-  #     dx = -dy; dy = dx
-  #   x = x + dx; y = y + dy
+
+func click_listener(target: Control, callback = null):
+  target.mouse_entered.connect(func():
+    target.mouse_default_cursor_shape = target.CURSOR_POINTING_HAND
+  )
+  target.mouse_exited.connect(func():
+    target.mouse_default_cursor_shape = target.CURSOR_ARROW
+  )
+  if callback: target.pressed.connect(callback)
