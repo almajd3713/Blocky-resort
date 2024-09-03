@@ -69,6 +69,13 @@ func _unhandled_input(event: InputEvent) -> void:
     Data.build_mode = Data.BuildModes.NONE
     Signals.open_category.emit(Data.BuildingCategory.NONE)
     Signals.open_category.emit(Data.BuildingCategory.NONE)
+  elif event.is_action_pressed("pipette"):
+    var tile = local_to_map(get_snapped_mouse_pos())
+    if data_grid.data.has(tile):
+      var building = data_grid.data[tile]['building']
+      if building and not building.data.is_ground:
+        _toggle_build_mode(building.data.code_name)
+    
 
 
 
