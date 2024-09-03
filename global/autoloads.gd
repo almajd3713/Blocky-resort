@@ -21,7 +21,9 @@ enum BuildModes {
   NONE, BUILD, DESTROY
 }
 enum Gender {MALE, FEMALE}
-
+enum EntranceDirection {
+  NORTH, EAST, SOUTH, WEST
+}
 enum BuildingCategory {
   NONE, ROOM, LUXURY, UTIL, PATH, DECOR
 }

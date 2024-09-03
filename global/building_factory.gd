@@ -117,6 +117,20 @@ func create_building(build: String):
     building.z_index = 4
   return building
 
+
+func get_neighbor_cell(tile: Vector2i, direction: Data.EntranceDirection):
+  var dir: Vector2i
+  match direction:
+    Data.EntranceDirection.NORTH:
+      dir = tile + Vector2i(0, -1)
+    Data.EntranceDirection.EAST:
+      dir = tile + Vector2i(1, 0)
+    Data.EntranceDirection.SOUTH:
+      dir = tile + Vector2i(0, 1)
+    Data.EntranceDirection.WEST:
+      dir = tile + Vector2i(-1, 0)
+
+  return dir
 # `at` is relative to data_grid
 func can_place_building(build: BuildingTemplate, at: Vector2i):
   var building_cells := get_building_tiles(data_grid, build, at)
@@ -128,6 +142,11 @@ func can_place_building(build: BuildingTemplate, at: Vector2i):
     elif not data_grid.data.has(cell):
       has_collisions = true
       break
+  if build.data.is_enterable:
+    var entrance = get_map_entrance_tile(build, at)
+    var entrance_neighbor = get_neighbor_cell(entrance, build.data.entrance_direction)
+    if not get_tile_property(entrance_neighbor, 'decor/path'): has_collisions = true
+
   if has_collisions:
     return false
   else:
