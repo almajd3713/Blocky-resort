@@ -16,6 +16,7 @@ var current_placement_building: BuildingTemplate
 func _ready() -> void:
   Signals.toggle_build_mode.connect(_toggle_build_mode)
   Signals.toggle_destroy_mode.connect(_toggle_destroy_mode)
+  Signals.toggle_none_mode.connect(func(): Data.build_mode = Data.BuildModes.NONE)
 
 func _toggle_build_mode(build: String):
   if Data.build_mode == Data.BuildModes.BUILD:
@@ -62,13 +63,23 @@ func _unhandled_input(event: InputEvent) -> void:
       var build = data_grid.data[at].building
       if build and not build.data.is_ground and not build.agent_in_building: 
         destroy_building(build, build.origin_tile)
+  elif event.is_action_pressed("rmb_click"):
+    Data.build_mode = Data.BuildModes.NONE
+  elif event.is_action_pressed('esc'):
+    Data.build_mode = Data.BuildModes.NONE
+    Signals.open_category.emit(Data.BuildingCategory.NONE)
+    Signals.open_category.emit(Data.BuildingCategory.NONE)
 
 
 
 
-
+func remove_current_placement() -> void:
+  if is_instance_valid(current_placement_building):
+    current_placement_building.queue_free()
+  
 func _physics_process(_delta: float) -> void:
-  if Data.build_mode == Data.BuildModes.NONE: pass;
+  if Data.build_mode == Data.BuildModes.NONE: 
+    return remove_current_placement()
 
   if Data.build_mode == Data.BuildModes.BUILD and is_instance_valid(current_placement_building):
     current_placement_building.position = get_snapped_mouse_pos()

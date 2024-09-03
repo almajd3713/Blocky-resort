@@ -49,7 +49,8 @@ func set_data(type: Data.BuildingCategory):
       build_item_container.add_child(scene)
       scene.data = build
       scene.update_ui()
-      print(scene.building_name.text)
+  else:
+    Signals.toggle_none_mode.emit()
   
 func toggle_build_item_menu(mode: bool):
   if mode:
